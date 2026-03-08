@@ -1,27 +1,14 @@
-/**
- * knn.h - Max-heap based k-Nearest Neighbor utilities
- *
- * Strategy: maintain a max-heap of size k.  The root always holds the
- * *furthest* neighbor found so far.  For each candidate, if its distance
- * is smaller than the root we replace the root and sift down.  This gives
- * O(n log k) per query, which is optimal for brute-force k-NN.
- */
-
 #ifndef KNN_H
 #define KNN_H
 
 #include "distance.h"
 
-/* ---------- Data types ---------- */
 
 typedef struct {
-    float distance;   /* squared L2 distance */
-    int   index;      /* index in the base dataset   */
+    float distance;   
+    int   index;   
 } Neighbor;
 
-/* ---------- Max-heap operations ---------- */
-
-/** Sift element at position i down to restore the max-heap property. */
 static void heap_sift_down(Neighbor *heap, int size, int i) {
     while (1) {
         int largest = i;
@@ -42,7 +29,6 @@ static void heap_sift_down(Neighbor *heap, int size, int i) {
     }
 }
 
-/** Build a max-heap in O(n) time. */
 static void heap_build(Neighbor *heap, int size) {
     for (int i = size / 2 - 1; i >= 0; i--)
         heap_sift_down(heap, size, i);
@@ -66,17 +52,17 @@ static void knn_search(const float *query,
                        int dim,
                        int k,
                        int *results) {
-    /* Allocate heap on the stack (k is small, e.g. 10) */
+    // Allocate heap on the stack
     Neighbor heap[k];
 
-    /* Seed the heap with the first k base vectors */
+    // Seed the heap with the first k base vectors
     for (int i = 0; i < k; i++) {
         heap[i].distance = l2_distance_squared(query, base + (long)i * dim, dim);
         heap[i].index    = i;
     }
     heap_build(heap, k);
 
-    /* Scan remaining base vectors */
+    // Scan remaining base vectors
     for (int i = k; i < base_n; i++) {
         float dist = l2_distance_squared(query, base + (long)i * dim, dim);
         if (dist < heap[0].distance) {
@@ -86,7 +72,7 @@ static void knn_search(const float *query,
         }
     }
 
-    /* Sort the k results by distance (insertion sort — k is small) */
+    // Sort the k results by distance
     for (int i = 1; i < k; i++) {
         Neighbor key = heap[i];
         int j = i - 1;
@@ -97,12 +83,12 @@ static void knn_search(const float *query,
         heap[j + 1] = key;
     }
 
-    /* Copy indices to output */
+    // Copy indices to output
     for (int i = 0; i < k; i++)
         results[i] = heap[i].index;
 }
 
-/* ---------- Recall computation ---------- */
+
 
 /**
  * Compute Recall@k: fraction of predicted neighbors that appear in
@@ -138,4 +124,4 @@ static double compute_recall(const int *results,
     return (double)correct / total * 100.0;
 }
 
-#endif /* KNN_H */
+#endif
