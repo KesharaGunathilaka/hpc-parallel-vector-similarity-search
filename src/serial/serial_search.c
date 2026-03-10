@@ -1,4 +1,4 @@
-// serial_search.c — Serial (single-threaded) brute-force k-NN search
+// serial_search.c — Serial 
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +19,7 @@ int main(void) {
     int query_dim, query_n;
     int gt_dim, gt_n;
 
-    printf("   Serial Brute-Force k-NN Search (SIFT 1M)\n");
+    printf("   Serial k-NN Search \n");
 
     fprintf(stderr, "Loading base vectors ...\n");
     float *base = fvecs_read(BASE_PATH, &base_dim, &base_n);
