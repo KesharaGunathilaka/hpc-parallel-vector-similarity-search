@@ -10,15 +10,15 @@
 This project implements exact brute-force **k-Nearest Neighbor (k-NN)** search on the **SIFT 1M** dataset and compares multiple parallelization strategies:
 
 - 🔹 **Serial C** - Baseline sequential implementation
-- 🔸 **OpenMP** - Shared-memory parallelism with `#pragma omp parallel for`
-- 🔸 **POSIX Threads** - Manual thread-based query partitioning
+- 🔹 **OpenMP** - Shared-memory parallelism with `#pragma omp parallel for`
+- 🔹 **POSIX Threads** - Manual thread-based query partitioning
 - 🔹 **MPI** - Distributed-memory with base dataset partitioning
-- 🔸 **Hybrid (MPI + OpenMP)** - Distributed + shared-memory combination
+- 🔹 **Hybrid (MPI + OpenMP)** - Distributed + shared-memory combination
 - 🔹 **CUDA** - GPU acceleration with streamed query batches
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Quick Start](#-quick-start)
 - [Overview](#-overview)
@@ -36,7 +36,7 @@ This project implements exact brute-force **k-Nearest Neighbor (k-NN)** search o
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Clone and navigate
@@ -64,7 +64,7 @@ See [Running Benchmarks](#-running-benchmarks) for detailed instructions.
 
 ---
 
-## 📊 Overview
+## Overview
 
 | Feature | Detail |
 |---|---|
@@ -78,7 +78,7 @@ See [Running Benchmarks](#-running-benchmarks) for detailed instructions.
 
 ---
 
-## 🔧 Implementations
+## Implementations
 
 | Implementation | Parallelism | Strategy | File |
 |---|---|---|---|
@@ -91,7 +91,7 @@ See [Running Benchmarks](#-running-benchmarks) for detailed instructions.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 hpc-parallel-vector-similarity-search/
@@ -131,7 +131,7 @@ hpc-parallel-vector-similarity-search/
 
 ---
 
-## 📥 Dataset
+## Dataset
 
 This project uses the **SIFT 1M** benchmark dataset from the [ANN Benchmarks / TexMex collection](http://corpus-texmex.irisa.fr/).
 
@@ -166,11 +166,11 @@ cd ..
 ls -lh data/sift_*
 ```
 
-⚠️ **Dataset must be in `data/` directory before running any benchmark.**
+**Dataset must be in `data/` directory before running any benchmark.**
 
 ---
 
-## ✅ Prerequisites
+## Prerequisites
 
 ### CPU & MPI Targets
 
@@ -237,7 +237,7 @@ nvidia-smi
 
 ---
 
-## 🔨 Build
+## Build
 
 ### Using Makefile (Recommended)
 
@@ -306,7 +306,7 @@ ls -lh bin/
 
 ---
 
-## ▶️ Running Benchmarks
+## Running Benchmarks
 
 ### Prerequisites
 
@@ -356,7 +356,7 @@ mpirun -np 4 ./bin/mpi_search | tee results/mpi_4r.txt
 mpirun -np 8 ./bin/mpi_search | tee results/mpi_8r.txt
 ```
 
-⚠️ **Note:** Number of ranks cannot exceed available CPU cores. Check with `nproc`.
+**Note:** Number of ranks cannot exceed available CPU cores. Check with `nproc`.
 
 #### Hybrid MPI + OpenMP
 
@@ -406,7 +406,7 @@ mpirun -np 4 ./bin/mpi_openmp_search 4 | tee results/hybrid_4r_4t.txt
 ./bin/cuda_search 512 | tee results/cuda_512.txt
 ```
 
-## 📊 Results & Analysis
+## Results & Analysis
 
 All benchmark results are saved in the `results/` directory as text files.
 
@@ -428,17 +428,17 @@ All benchmark results are saved in the `results/` directory as text files.
 
 ### Key Insights
 
-✅ **CUDA with batch 512** achieves the best performance (3.59x speedup)  
-✅ **OpenMP with 4 threads** is the best CPU-only option (3.51x speedup)  
-⚠️ **8 threads slower than 4** due to cache contention  
-⚠️ **MPI with 2 ranks** underperforms (communication overhead)  
-⚠️ **Hybrid doesn't improve over pure OpenMP** on single machine  
+ **CUDA with batch 512** achieves the best performance (3.59x speedup)  
+ **OpenMP with 4 threads** is the best CPU-only option (3.51x speedup)  
+ **8 threads slower than 4** due to cache contention  
+ **MPI with 2 ranks** underperforms (communication overhead)  
+ **Hybrid doesn't improve over pure OpenMP** on single machine  
 
 **See [COMPARISON_RESULTS.txt](results/COMPARISON_RESULTS.txt) for detailed analysis.**
 
 ---
 
-## 🎨 Design Notes
+## Design Notes
 
 ### Serial / OpenMP / POSIX Threads
 
@@ -485,7 +485,7 @@ GPU-based exact search:
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### File Not Found
 
@@ -543,7 +543,7 @@ g++ --version
 
 ---
 
-## 📚 Contributors
+## Contributors
 
 - **Keshara Gunathilaka:** [KesharaGunathilaka](https://github.com/KesharaGunathilaka)
 - **Kanishka Gunasinghe:** [kanishkapg](https://github.com/kanishkapg)
@@ -551,13 +551,13 @@ g++ --version
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📚 References
+## References
 
 - **SIFT Dataset:** [TexMex / ANN Benchmarks](http://corpus-texmex.irisa.fr/)
 - **OpenMP Specification:** [OpenMP.org](https://www.openmp.org/)
@@ -568,7 +568,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-### 🏆 Performance Champion: CUDA with Batch Size 512
+### Performance Champion: CUDA with Batch Size 512
 
 **3.59x speedup** | **55.69 QPS** | **99.94% Recall@10**
 
