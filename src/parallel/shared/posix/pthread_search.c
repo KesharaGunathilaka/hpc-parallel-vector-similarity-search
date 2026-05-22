@@ -7,6 +7,7 @@
 #include "io.h"
 #include "distance.h"
 #include "knn.h"
+#include "progress.h"
 
 /* ---- Configuration ---- */
 #define K               10
@@ -32,14 +33,23 @@ typedef struct {
     int          start_query;   /* inclusive */
     int          end_query;     /* exclusive */
     SharedData  *shared;
+    struct ProgressState *progress_state;
     /* progress tracking */
     int          queries_done;  /* written only by this thread */
 } ThreadArg;
+
+typedef struct ProgressState {
+    int *progress;
+    int total;
+    int step;
+    pthread_mutex_t *mutex;
+} ProgressState;
 
 /* ---- Thread worker function ---- */
 static void *search_worker(void *arg) {
     ThreadArg  *ta = (ThreadArg *)arg;
     SharedData *sd = ta->shared;
+    ProgressState *ps = ta->progress_state;
 
     int count = 0;
     for (int q = ta->start_query; q < ta->end_query; q++) {
@@ -47,6 +57,13 @@ static void *search_worker(void *arg) {
         knn_search(query, sd->base, sd->base_n, sd->dim, sd->k,
                    sd->results + (long)q * sd->k);
         count++;
+
+        pthread_mutex_lock(ps->mutex);
+        (*ps->progress)++;
+        if ((*ps->progress) % ps->step == 0 || *ps->progress == ps->total) {
+            progress_bar_print("Pthreads", *ps->progress, ps->total);
+        }
+        pthread_mutex_unlock(ps->mutex);
     }
     ta->queries_done = count;
     return NULL;
@@ -97,6 +114,15 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    int progress = 0;
+    pthread_mutex_t progress_mutex = PTHREAD_MUTEX_INITIALIZER;
+    ProgressState progress_state = {
+        .progress = &progress,
+        .total = query_n,
+        .step = 250,
+        .mutex = &progress_mutex
+    };
+
     /* ---- Prepare shared data ---- */
     SharedData shared = {
         .base    = base,
@@ -122,6 +148,7 @@ int main(int argc, char *argv[]) {
         args[t].start_query = offset;
         args[t].end_query   = offset + count;
         args[t].shared      = &shared;
+        args[t].progress_state = &progress_state;
         args[t].queries_done = 0;
         offset += count;
     }
@@ -149,6 +176,8 @@ int main(int argc, char *argv[]) {
     for (int t = 0; t < num_threads; t++) {
         pthread_join(threads[t], NULL);
     }
+
+    progress_bar_finish("Pthreads", query_n);
 
     clock_gettime(CLOCK_MONOTONIC, &ts_end);
 
@@ -178,6 +207,25 @@ int main(int argc, char *argv[]) {
     printf("CSV:pthread,%d,%.4f,%.2f,%.2f\n", num_threads, elapsed,
            query_n / elapsed, recall);
 
+    /* Save results to file */
+    FILE *outf = fopen("results/pthread.txt", "a");
+    if (outf) {
+        fprintf(outf, "CSV:pthread,%d,%.4f,%.2f,%.2f\n", num_threads, elapsed,
+                query_n / elapsed, recall);
+        fprintf(outf, "Sample results (first 3 queries):\n");
+        for (int q = 0; q < 3 && q < query_n; q++) {
+            fprintf(outf, "Query %d: ", q);
+            for (int i = 0; i < K; i++)
+                fprintf(outf, "%d ", results[(long)q * K + i]);
+            fprintf(outf, "\n");
+            fprintf(outf, "Truth %d: ", q);
+            for (int i = 0; i < K && i < gt_dim; i++)
+                fprintf(outf, "%d ", ground_truth[(long)q * gt_dim + i]);
+            fprintf(outf, "\n");
+        }
+        fclose(outf);
+    }
+
     /* ---- Sample results ---- */
     printf("\nSample results (first 3 queries):\n");
     for (int q = 0; q < 3 && q < query_n; q++) {
@@ -198,6 +246,8 @@ int main(int argc, char *argv[]) {
     free(results);
     free(threads);
     free(args);
+
+    pthread_mutex_destroy(&progress_mutex);
 
     return EXIT_SUCCESS;
 }
