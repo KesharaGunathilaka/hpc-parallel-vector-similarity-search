@@ -6,6 +6,7 @@
 #include "io.h"
 #include "distance.h"
 #include "knn.h"
+#include "progress.h"
 
 #define K           10
 #define BASE_PATH   "data/sift_base.fvecs"
@@ -58,6 +59,7 @@ int main(int argc, char *argv[]) {
 
     /* ---- Shared progress counter ---- */
     int progress = 0;
+    const int progress_step = 250;
 
     /* ---- Parallel search ---- */
     fprintf(stderr, "Starting OpenMP search with %d threads ...\n", num_threads);
@@ -75,12 +77,11 @@ int main(int argc, char *argv[]) {
         #pragma omp atomic
         progress++;
 
-        /* Only thread 0 prints progress */
-        if (omp_get_thread_num() == 0 && progress % 1000 < num_threads) {
-            fprintf(stderr, "\r  Progress: ~%d / %d queries", progress, query_n);
+        if (omp_get_thread_num() == 0 && (progress % progress_step == 0 || progress == query_n)) {
+            progress_bar_print("OpenMP", progress, query_n);
         }
     }
-    fprintf(stderr, "\r  Progress: %d / %d queries (100.0%%)\n", query_n, query_n);
+    progress_bar_finish("OpenMP", query_n);
 
     clock_gettime(CLOCK_MONOTONIC, &ts_end);
 
@@ -100,6 +101,25 @@ int main(int argc, char *argv[]) {
 
     printf("CSV:openmp,%d,%.4f,%.2f,%.2f\n", num_threads, elapsed,
            query_n / elapsed, recall);
+
+    /* Save results to file */
+    FILE *outf = fopen("results/openmp.txt", "a");
+    if (outf) {
+        fprintf(outf, "CSV:openmp,%d,%.4f,%.2f,%.2f\n", num_threads, elapsed,
+                query_n / elapsed, recall);
+        fprintf(outf, "Sample results (first 3 queries):\n");
+        for (int q = 0; q < 3 && q < query_n; q++) {
+            fprintf(outf, "Query %d: ", q);
+            for (int i = 0; i < K; i++)
+                fprintf(outf, "%d ", results[(long)q * K + i]);
+            fprintf(outf, "\n");
+            fprintf(outf, "Truth %d: ", q);
+            for (int i = 0; i < K && i < gt_dim; i++)
+                fprintf(outf, "%d ", ground_truth[(long)q * gt_dim + i]);
+            fprintf(outf, "\n");
+        }
+        fclose(outf);
+    }
 
     printf("\nSample results (first 3 queries):\n");
     for (int q = 0; q < 3 && q < query_n; q++) {
