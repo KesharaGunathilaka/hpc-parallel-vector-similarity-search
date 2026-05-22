@@ -20,7 +20,6 @@
 *.ivecs
 
 # Build outputs
-/bin/
 /build/
 /dist/
 
@@ -63,7 +62,6 @@ Thumbs.db
 # ====================
 # Benchmark results (optional - comment out if you want to track)
 # /results/
-results/*.txt
 *.log
 *.out
 
