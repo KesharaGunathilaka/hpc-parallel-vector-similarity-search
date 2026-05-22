@@ -545,9 +545,9 @@ g++ --version
 
 ## 📚 Contributors
 
-- **Keshara Gunathilaka** [KesharaGunathilaka](https://github.com/KesharaGunathilaka)
-- **Kanishka Gunasinghe** [kanishkapg](https://github.com/kanishkapg)
-- **Yashodha Gunawardhana** [Yashcat2](https://github.com/Yashcat2)
+- **Keshara Gunathilaka:** [KesharaGunathilaka](https://github.com/KesharaGunathilaka)
+- **Kanishka Gunasinghe:** [kanishkapg](https://github.com/kanishkapg)
+- **Yashodha Gunawardhana:** [Yashcat2](https://github.com/Yashcat2)
 
 ---
 
