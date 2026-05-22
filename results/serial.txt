@@ -1,4 +1,4 @@
-   Serial Brute-Force k-NN Search (SIFT 1M)
+   Serial k-NN Search 
 Base vectors   : 1000000  (dim = 128)
 Query vectors  : 10000  (dim = 128)
 Ground truth   : 10000  entries  (neighbors/entry = 100)
@@ -7,12 +7,12 @@ k              : 10
 --------------------------------------------
             RESULTS (Serial)
 --------------------------------------------
-Total search time     : 1192.2551 seconds
-Avg query time        : 0.119226 seconds
-Throughput            : 8.39 queries/sec
+Total search time     : 645.4270 seconds
+Avg query time        : 0.064543 seconds
+Throughput            : 15.49 queries/sec
 Recall@10             : 99.93%
 --------------------------------------------
-CSV:serial,1,1192.2551,8.39,99.93
+CSV:serial,1,645.4270,15.49,99.93
 
 Sample results (first 3 queries):
   Query 0: 932085 934876 561813 708177 706771 695756 435345 701258 455537 872728 
