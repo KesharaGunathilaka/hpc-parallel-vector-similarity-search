@@ -5,6 +5,7 @@
 #include "io.h"
 #include "distance.h"
 #include "knn.h"
+#include "progress.h"
 
 //Configuration
 #define K           10
@@ -46,6 +47,8 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
+    const int progress_step = 250;
+
     // Serial search
     fprintf(stderr, "Starting serial search ...\n");
 
@@ -57,13 +60,11 @@ int main(void) {
         knn_search(query, base, base_n, base_dim, K,
                    results + (long)q * K);
 
-        /* Progress every 1000 queries */
-        if ((q + 1) % 1000 == 0 || q + 1 == query_n) {
-            fprintf(stderr, "\r  Progress: %d / %d queries (%.1f%%)",
-                    q + 1, query_n, (q + 1) * 100.0 / query_n);
+        if ((q + 1) % progress_step == 0 || q + 1 == query_n) {
+            progress_bar_print("Serial", q + 1, query_n);
         }
     }
-    fprintf(stderr, "\n");
+    progress_bar_finish("Serial", query_n);
 
     clock_gettime(CLOCK_MONOTONIC, &ts_end);
 
@@ -85,6 +86,24 @@ int main(void) {
 
     // Machine-readable line for scripts
     printf("CSV:serial,1,%.4f,%.2f,%.2f\n", elapsed, query_n / elapsed, recall);
+
+    /* Save results to file */
+    FILE *outf = fopen("results/serial.txt", "a");
+    if (outf) {
+        fprintf(outf, "CSV:serial,1,%.4f,%.2f,%.2f\n", elapsed, query_n / elapsed, recall);
+        fprintf(outf, "Sample results (first 3 queries):\n");
+        for (int q = 0; q < 3 && q < query_n; q++) {
+            fprintf(outf, "Query %d: ", q);
+            for (int i = 0; i < K; i++)
+                fprintf(outf, "%d ", results[(long)q * K + i]);
+            fprintf(outf, "\n");
+            fprintf(outf, "Truth %d: ", q);
+            for (int i = 0; i < K && i < gt_dim; i++)
+                fprintf(outf, "%d ", ground_truth[(long)q * gt_dim + i]);
+            fprintf(outf, "\n");
+        }
+        fclose(outf);
+    }
 
     // Sample results (first 3 queries)
     printf("\nSample results (first 3 queries):\n");
