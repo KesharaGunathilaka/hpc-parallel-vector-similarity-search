@@ -53,7 +53,7 @@ static void __attribute__((unused)) knn_search(const float *query,
                        int k,
                        int *results) {
     // Allocate heap on the stack
-    Neighbor heap[k];
+    Neighbor *heap = (Neighbor *)malloc(k * sizeof(Neighbor));
 
     // Seed the heap with the first k base vectors
     for (int i = 0; i < k; i++) {
@@ -98,7 +98,7 @@ static void __attribute__((unused)) knn_search_with_distances(const float *query
                                       int k,
                                       float *out_distances,
                                       int *out_indices) {
-    Neighbor heap[k];
+    Neighbor *heap = (Neighbor *)malloc(k * sizeof(Neighbor));
 
     for (int i = 0; i < k; i++) {
         heap[i].distance = l2_distance_squared(query, base + (long)i * dim, dim);
@@ -147,7 +147,7 @@ static void __attribute__((unused)) knn_select_topk_from_candidates(const Neighb
     }
 
     int heap_size = candidate_count < k ? candidate_count : k;
-    Neighbor heap[k];
+    Neighbor *heap = (Neighbor *)malloc(k * sizeof(Neighbor));
 
     for (int i = 0; i < heap_size; i++) {
         heap[i] = candidates[i];
