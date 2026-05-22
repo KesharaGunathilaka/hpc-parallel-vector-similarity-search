@@ -543,6 +543,14 @@ g++ --version
 
 ---
 
+## 📚 Contributors
+
+- **Keshara Gunathilaka** [GitHub](https://github.com/KesharaGunathilaka)
+- **Kanishka Gunasinghe** [GitHub](https://github.com/kanishkapg)
+- **Yashodha Gunawardhana** [GitHub](https://github.com/Yashcat2)
+
+---
+
 ## 📄 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
