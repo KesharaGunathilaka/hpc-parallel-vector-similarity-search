@@ -1,1 +1,152 @@
-/data
+# ====================
+# Build Artifacts
+# ====================
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.obj
+
+# ====================
+# Directories
+# ====================
+# Large data files
+/data/
+*.fvecs
+*.ivecs
+
+# Build outputs
+/bin/
+/build/
+/dist/
+
+# IDE and Editor Settings
+# ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+.vim/
+.project
+.cproject
+.settings/
+
+# ====================
+# Compiled Objects
+# ====================
+# C/C++ object files
+*.o
+*.obj
+
+# CUDA compilation artifacts
+*.cu.o
+*.cu.cpp
+*.ptx
+*.cubin
+
+# Archive files
+*.a
+*.lib
+*.ar
+
+# ====================
+# Results and Outputs
+# ====================
+# Benchmark results (optional - comment out if you want to track)
+# /results/
+results/*.txt
+*.log
+*.out
+
+# ====================
+# Language-specific
+# ====================
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Fortran
+*.mod
+*.smod
+
+# ====================
+# System Files
+# ====================
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+*.stackdump
+core.*
+
+# ====================
+# Temporary Files
+# ====================
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+.#*
+
+# ====================
+# CMake/Build System
+# ====================
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile.bak
+
+# ====================
+# Documentation Build
+# ====================
+/docs/_build/
+/site/
+
+# ====================
+# OS-specific
+# ====================
+# Windows
+.vs/
+.vscode/
+.idea/
+
+# Linux
+.bash_history
+.cache/
+
+# macOS
+.AppleDouble
+.LSOverride
+._*
+
+# ====================
+# Performance Profiling
+# ====================
+*.prof
+*.callgrind*
+*.massif*
+gmon.out
+
+# ====================
+# Testing
+# ====================
+.coverage
+htmlcov/
+.pytest_cache/
+coverage/
