@@ -73,13 +73,13 @@ __device__ __forceinline__ void insert_candidate(float distance,
     best_idx[pos] = index;
 }
 
-__global__ void knn_kernel(const float *base,
+__global__ void knn_kernel(const float * __restrict__ base,
                            int base_n,
                            int dim,
-                           const float *queries,
+                           const float * __restrict__ queries,
                            int query_n,
                            int k,
-                           int *out_indices) {
+                           int * __restrict__ out_indices) {
     int q = blockIdx.x * blockDim.x + threadIdx.x;
     if (q >= query_n) {
         return;
