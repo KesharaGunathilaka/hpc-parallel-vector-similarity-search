@@ -180,6 +180,26 @@ int main(int argc, char *argv[]) {
 
         printf("CSV:hybrid,%d,%d,%.4f,%.2f,%.2f\n", size, omp_threads, elapsed, query_n / elapsed, recall);
 
+        /* Save results to file */
+        FILE *outf = fopen("results/hybrid.txt", "a");
+        if (outf) {
+            fprintf(outf, "CSV:hybrid,%d,%d,%.4f,%.2f,%.2f\n", size, omp_threads, elapsed, query_n / elapsed, recall);
+            fprintf(outf, "Sample results (first 3 queries):\n");
+            for (int q = 0; q < 3 && q < query_n; q++) {
+                fprintf(outf, "Query %d: ", q);
+                for (int i = 0; i < K; i++) {
+                    fprintf(outf, "%d ", results[(long)q * K + i]);
+                }
+                fprintf(outf, "\n");
+                fprintf(outf, "Truth %d: ", q);
+                for (int i = 0; i < K && i < gt_dim; i++) {
+                    fprintf(outf, "%d ", ground_truth[(long)q * gt_dim + i]);
+                }
+                fprintf(outf, "\n");
+            }
+            fclose(outf);
+        }
+
         printf("\nSample results (first 3 queries):\n");
         for (int q = 0; q < 3 && q < query_n; q++) {
             printf("  Query %d: ", q);
