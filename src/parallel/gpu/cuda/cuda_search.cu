@@ -1,6 +1,5 @@
 /**
  * cuda_search.cu - Exact single-GPU brute-force k-NN search with streaming.
- *
  * Strategy:
  *   - Copy the full base dataset to GPU memory once
  *   - Stream query batches through pinned host buffers and CUDA streams
@@ -8,7 +7,6 @@
  */
 
 
- // Suppress GCC-specific attributes on MSVC
 #ifdef _MSC_VER
   #define __attribute__(x)
 #endif
@@ -49,7 +47,7 @@
 __device__ __forceinline__ float l2_distance_squared_device(const float *a, const float *b, int dim) {
     float dist = 0.0f;
     for (int i = 0; i < dim; i++) {
-        float diff = a[i] - b[i];
+        float diff = __ldg(&a[i]) - __ldg(&b[i]);
         dist += diff * diff;
     }
     return dist;
@@ -75,13 +73,13 @@ __device__ __forceinline__ void insert_candidate(float distance,
     best_idx[pos] = index;
 }
 
-__global__ void knn_kernel(const float *base,
+__global__ void knn_kernel(const float * __restrict__ base,
                            int base_n,
                            int dim,
-                           const float *queries,
+                           const float * __restrict__ queries,
                            int query_n,
                            int k,
-                           int *out_indices) {
+                           int * __restrict__ out_indices) {
     int q = blockIdx.x * blockDim.x + threadIdx.x;
     if (q >= query_n) {
         return;
@@ -275,7 +273,7 @@ int main(int argc, char *argv[]) {
     printf("--------------------------------------------\n");
     printf("CSV:cuda,1,%.4f,%.2f,%.2f\n", elapsed, query_n / elapsed, recall);
 
-    /* Save results to file */
+
     FILE *outf = fopen("results/cuda.txt", "a");
     if (outf) {
         fprintf(outf, "CSV:cuda,1,%.4f,%.2f,%.2f\n", elapsed, query_n / elapsed, recall);
