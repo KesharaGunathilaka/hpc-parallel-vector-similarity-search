@@ -1,12 +1,3 @@
-/**
- * cuda_search.cu - Exact single-GPU brute-force k-NN search with streaming.
- * Strategy:
- *   - Copy the full base dataset to GPU memory once
- *   - Stream query batches through pinned host buffers and CUDA streams
- *   - One CUDA thread processes one query and keeps a small top-k list in registers
- */
-
-
 #ifdef _MSC_VER
   #define __attribute__(x)
 #endif
