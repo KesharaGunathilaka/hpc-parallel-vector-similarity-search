@@ -169,8 +169,30 @@ int main(int argc, char *argv[]) {
         progress_bar_finish(progress_label, query_n);
         double recall = compute_recall(results, ground_truth, query_n, K, gt_dim);
 
+        printf("--------------------------------------------\n");
+        printf("    RESULTS (Hybrid MPI + OpenMP)\n");
+        printf("--------------------------------------------\n");
         printf("Total search time     : %.4f seconds\n", elapsed);
         printf("Avg query time        : %.6f seconds\n", elapsed / query_n);
+        printf("Throughput            : %.2f queries/sec\n", query_n / elapsed);
+        printf("Recall@%d             : %.2f%%\n", K, recall);
+        printf("--------------------------------------------\n");
+
+        printf("CSV:hybrid,%d,%d,%.4f,%.2f,%.2f\n", size, omp_threads, elapsed, query_n / elapsed, recall);
+
+        printf("\nSample results (first 3 queries):\n");
+        for (int q = 0; q < 3 && q < query_n; q++) {
+            printf("  Query %d: ", q);
+            for (int i = 0; i < K; i++) {
+                printf("%d ", results[(long)q * K + i]);
+            }
+            printf("\n");
+            printf("  Truth %d: ", q);
+            for (int i = 0; i < K && i < gt_dim; i++) {
+                printf("%d ", ground_truth[(long)q * gt_dim + i]);
+            }
+            printf("\n");
+        }
 
 
     }
