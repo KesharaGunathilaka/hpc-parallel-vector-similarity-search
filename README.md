@@ -26,7 +26,7 @@ A group project for **EC7207 High Performance Computing** (Semester 7), BSc (Hon
 - [Running Benchmarks](#running-benchmarks)
 - [Checking Correctness](#checking-correctness)
 - [Troubleshooting](#troubleshooting)
-- [Contributors](#contributors)
+- [Team](#team)
 - [License](#license)
 - [References](#references)
 
@@ -100,6 +100,7 @@ Each row is one run. The batch sizes 4096, 8192 and 10000 were repeated and agre
 - **MPI needs very little communication here.** The ranks only exchange data once, at the end, so 2 ranks already give 1.89x.
 
 See [Comparison Results.txt](results/Comparison%20Results.txt) for the full analysis.
+
 ---
 
 ## Implementations
