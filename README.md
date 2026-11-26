@@ -294,15 +294,11 @@ A one-off run of the same distance check on the full CUDA and 4-rank MPI neighbo
 
 ---
 
-## Contributors
+## Team
 
-| Member | Main parts |
-|---|---|
-| **Keshara Gunathilaka** ([KesharaGunathilaka](https://github.com/KesharaGunathilaka)) | Serial, OpenMP, CUDA |
-| **Yashodha Gunawardhana** ([Yashcat2](https://github.com/Yashcat2)) | MPI |
-| **Kanishka Gunasinghe** ([kanishkapg](https://github.com/kanishkapg)) | POSIX threads, hybrid versions |
-
-The rest of the work was shared by the whole team.
+- **Keshara Gunathilaka** ([KesharaGunathilaka](https://github.com/KesharaGunathilaka))
+- **Kanishka Gunasinghe** ([kanishkapg](https://github.com/kanishkapg))
+- **Yashodha Gunawardhana** ([Yashcat2](https://github.com/Yashcat2))
 
 ---
 
