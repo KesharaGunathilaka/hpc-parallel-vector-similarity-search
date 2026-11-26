@@ -7,12 +7,12 @@ k              : 10
 --------------------------------------------
             RESULTS (Serial)
 --------------------------------------------
-Total search time     : 645.4270 seconds
-Avg query time        : 0.064543 seconds
-Throughput            : 15.49 queries/sec
+Total search time     : 645.2393 seconds
+Avg query time        : 0.064524 seconds
+Throughput            : 15.50 queries/sec
 Recall@10             : 99.93%
 --------------------------------------------
-CSV:serial,1,645.4270,15.49,99.93
+CSV:serial,1,645.2393,15.50,99.93
 
 Sample results (first 3 queries):
   Query 0: 932085 934876 561813 708177 706771 695756 435345 701258 455537 872728 

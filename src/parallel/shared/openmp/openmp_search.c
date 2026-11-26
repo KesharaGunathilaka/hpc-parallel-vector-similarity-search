@@ -73,12 +73,13 @@ int main(int argc, char *argv[]) {
         knn_search(query, base, base_n, base_dim, K,
                    results + (long)q * K);
 
-        /* Atomic progress update */
-        #pragma omp atomic
-        progress++;
+        /* Atomic progress update; capture the value so it is read safely */
+        int done;
+        #pragma omp atomic capture
+        done = ++progress;
 
-        if (omp_get_thread_num() == 0 && (progress % progress_step == 0 || progress == query_n)) {
-            progress_bar_print("OpenMP", progress, query_n);
+        if (omp_get_thread_num() == 0 && (done % progress_step == 0 || done == query_n)) {
+            progress_bar_print("OpenMP", done, query_n);
         }
     }
     progress_bar_finish("OpenMP", query_n);

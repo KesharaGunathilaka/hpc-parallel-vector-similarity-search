@@ -12,12 +12,12 @@ OMP threads    : 4
 --------------------------------------------
     RESULTS (Hybrid MPI + OpenMP)
 --------------------------------------------
-Total search time     : 188.3457 seconds
-Avg query time        : 0.018835 seconds
-Throughput            : 53.09 queries/sec
+Total search time     : 188.0952 seconds
+Avg query time        : 0.018810 seconds
+Throughput            : 53.16 queries/sec
 Recall@10             : 99.94%
 --------------------------------------------
-CSV:hybrid,2,4,188.3457,53.09,99.94
+CSV:hybrid,2,4,188.0952,53.16,99.94
 
 Sample results (first 3 queries):
   Query 0: 932085 934876 561813 708177 706771 695756 435345 701258 455537 872728 

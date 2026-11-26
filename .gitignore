@@ -148,3 +148,8 @@ gmon.out
 htmlcov/
 .pytest_cache/
 coverage/
+
+# ====================
+# Compiled binaries (build with make)
+# ====================
+/bin/

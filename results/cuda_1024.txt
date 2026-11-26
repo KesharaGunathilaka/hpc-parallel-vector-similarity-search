@@ -11,12 +11,12 @@ Batch size     : 1024
 --------------------------------------------
         RESULTS (CUDA, 1 GPU)
 --------------------------------------------
-Total search time     : 89.8694 seconds
-Avg query time        : 0.008987 seconds
-Throughput            : 111.27 queries/sec
+Total search time     : 47.9495 seconds
+Avg query time        : 0.004795 seconds
+Throughput            : 208.55 queries/sec
 Recall@10             : 99.94%
 --------------------------------------------
-CSV:cuda,1,89.8694,111.27,99.94
+CSV:cuda,1,47.9495,208.55,99.94
 
 Sample results (first 3 queries):
   Query 0: 932085 934876 561813 708177 706771 695756 435345 701258 455537 872728 

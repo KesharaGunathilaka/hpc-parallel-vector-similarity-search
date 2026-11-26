@@ -21,7 +21,13 @@ static void compute_partition(long total, int rank, int size, long *start, long 
 }
 
 int main(int argc, char *argv[]) {
-    MPI_Init(&argc, &argv);
+    /* Threads are used, but only the main thread makes MPI calls */
+    int provided = 0;
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
+    if (provided < MPI_THREAD_FUNNELED) {
+        fprintf(stderr, "Error: MPI library lacks MPI_THREAD_FUNNELED support\n");
+        MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+    }
 
     int rank = 0;
     int size = 0;
@@ -109,12 +115,13 @@ int main(int argc, char *argv[]) {
                                   local_distances + (long)q * K,
                                   local_indices + (long)q * K);
 
-        #pragma omp atomic
-        local_done++;
+        int done;
+        #pragma omp atomic capture
+        done = ++local_done;
 
-        if ((local_done % progress_step == 0) || (local_done == query_n)) {
+        if ((done % progress_step == 0) || (done == query_n)) {
             if (omp_get_thread_num() == 0) {
-                progress_bar_print(progress_label, local_done, query_n);
+                progress_bar_print(progress_label, done, query_n);
             }
         }
     }

@@ -11,12 +11,12 @@ Threads        : 4
 --------------------------------------------
        RESULTS (OpenMP, 4 threads)
 --------------------------------------------
-Total search time     : 183.8681 seconds
-Avg query time        : 0.018387 seconds
-Throughput            : 54.39 queries/sec
+Total search time     : 189.4681 seconds
+Avg query time        : 0.018947 seconds
+Throughput            : 52.78 queries/sec
 Recall@10             : 99.93%
 --------------------------------------------
-CSV:openmp,4,183.8681,54.39,99.93
+CSV:openmp,4,189.4681,52.78,99.93
 
 Sample results (first 3 queries):
   Query 0: 932085 934876 561813 708177 706771 695756 435345 701258 455537 872728 
