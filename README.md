@@ -99,8 +99,7 @@ Each row is one run. The batch sizes 4096, 8192 and 10000 were repeated and agre
 - **CPU versions scale with the processors available.** With 4 logical processors, OpenMP, POSIX threads, MPI and both hybrids all reach about 3.4x to 3.5x with 4 workers. Running more threads than processors adds nothing.
 - **MPI needs very little communication here.** The ranks only exchange data once, at the end, so 2 ranks already give 1.89x.
 
-See [Comparison Results.txt](results/Comparison%20Results.txt) for the full analysis. The [original project report](docs/Analysis%20Report.pdf) describes the May 2026 runs; the table above is a later re-measurement of the current code.
-
+See [Comparison Results.txt](results/Comparison%20Results.txt) for the full analysis.
 ---
 
 ## Implementations
@@ -165,7 +164,6 @@ hpc-parallel-vector-similarity-search/
 │   │   └── gpu/cuda/
 │   └── tools/
 │       └── verify_recall.c      # Recall and tie check
-├── docs/                        # Project report
 ├── results/                     # Benchmark output
 ├── data/                        # Dataset (not in the repository)
 ├── Makefile
