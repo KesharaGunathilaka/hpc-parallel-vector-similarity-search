@@ -11,12 +11,12 @@ Threads        : 4
 --------------------------------------------
     RESULTS (POSIX Threads, 4 threads)
 --------------------------------------------
-Total search time     : 187.9726 seconds
-Avg query time        : 0.018797 seconds
-Throughput            : 53.20 queries/sec
+Total search time     : 192.8010 seconds
+Avg query time        : 0.019280 seconds
+Throughput            : 51.87 queries/sec
 Recall@10             : 99.93%
 --------------------------------------------
-CSV:pthread,4,187.9726,53.20,99.93
+CSV:pthread,4,192.8010,51.87,99.93
 
 Sample results (first 3 queries):
   Query 0: 932085 934876 561813 708177 706771 695756 435345 701258 455537 872728 

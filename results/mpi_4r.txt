@@ -11,12 +11,12 @@ MPI ranks      : 4
 --------------------------------------------
       RESULTS (MPI, 4 ranks)
 --------------------------------------------
-Total search time     : 187.1499 seconds
-Avg query time        : 0.018715 seconds
-Throughput            : 53.43 queries/sec
+Total search time     : 185.6351 seconds
+Avg query time        : 0.018564 seconds
+Throughput            : 53.87 queries/sec
 Recall@10             : 99.94%
 --------------------------------------------
-CSV:mpi,4,187.1499,53.43,99.94
+CSV:mpi,4,185.6351,53.87,99.94
 
 Sample results (first 3 queries):
   Query 0: 932085 934876 561813 708177 706771 695756 435345 701258 455537 872728 

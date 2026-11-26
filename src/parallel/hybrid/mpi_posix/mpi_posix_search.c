@@ -70,7 +70,13 @@ static void *search_worker(void *arg) {
 }
 
 int main(int argc, char *argv[]) {
-    MPI_Init(&argc, &argv);
+    /* Worker threads make no MPI calls; only the main thread does */
+    int provided = 0;
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
+    if (provided < MPI_THREAD_FUNNELED) {
+        fprintf(stderr, "Error: MPI library lacks MPI_THREAD_FUNNELED support\n");
+        MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+    }
 
     int rank = 0;
     int size = 0;

@@ -1,0 +1,3 @@
+Queries                         : 10000 (k = 10)
+Recall@10 by neighbour index    : 99.93% (70 mismatches)
+Recall@10 by neighbour distance : 100.00% (0 mismatches)
